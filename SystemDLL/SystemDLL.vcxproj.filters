@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source\System">
+      <UniqueIdentifier>{f6c5c75c-e0af-411d-8f38-b998d2128cbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Core">
+      <UniqueIdentifier>{933f2b0d-c456-41d7-bfe9-4a8ba914f04e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Common">
+      <UniqueIdentifier>{48894e67-b431-4825-9502-359603a22569}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine">
+      <UniqueIdentifier>{bc17916c-ac07-43c6-b09d-2f537161f281}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Platform">
+      <UniqueIdentifier>{b9c48151-9e89-45cb-878c-1cf23d3b0afd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Platform\Win32">
+      <UniqueIdentifier>{6427cd32-6cab-4502-8b48-1f97d3963587}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\D3D12">
+      <UniqueIdentifier>{b9aaa0bb-d02a-4baa-b585-de1e7bac6c58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Object">
+      <UniqueIdentifier>{ae2fb9b5-179c-4664-b59a-e1aa183c4ab7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Manager">
+      <UniqueIdentifier>{0e2521c7-9b33-4a3b-b621-340fe9c8e9b7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\System\SystemDLL.h">
+      <Filter>Source\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\Core.h">
+      <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\CoreDefinitions.h">
+      <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\CoreMinimal.h">
+      <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Core\PerGameSettings.h">
+      <Filter>Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\System\SystemFunc.h">
+      <Filter>Source\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Common\CmdLineArgs.h">
+      <Filter>Source\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Common\Logger.h">
+      <Filter>Source\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Common\Time.h">
+      <Filter>Source\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\OEngine.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Simulation.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\SplashScreen.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Platform\WIN32\IApplication.h">
+      <Filter>Source\Platform\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Platform\WIN32\SubObject.h">
+      <Filter>Source\Platform\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Platform\WIN32\Win32Caption.h">
+      <Filter>Source\Platform\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Platform\WIN32\Win32Utils.h">
+      <Filter>Source\Platform\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Platform\WIN32\Window.h">
+      <Filter>Source\Platform\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Platform\WIN32\WinEntry.h">
+      <Filter>Source\Platform\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\D3D12\Device.h">
+      <Filter>Source\D3D12</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\D3D12\MathHelper.h">
+      <Filter>Source\D3D12</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\D3D12\d3dUtil.h">
+      <Filter>Source\D3D12</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Object\Box.h">
+      <Filter>Source\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\D3D12\UploadBuffer.h">
+      <Filter>Source\D3D12</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Object\GameObject.h">
+      <Filter>Source\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Hierarchy.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Manager\ObjectManager.h">
+      <Filter>Source\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Common\Factory.h">
+      <Filter>Source\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Inspector.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\System\SystemDLL.cpp">
+      <Filter>Source\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\Core.cpp">
+      <Filter>Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\CoreDefinitions.cpp">
+      <Filter>Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\CoreMinimal.cpp">
+      <Filter>Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Core\PerGameSettings.cpp">
+      <Filter>Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System\SystemFunc.cpp">
+      <Filter>Source\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Common\CmdLineArgs.cpp">
+      <Filter>Source\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Common\Logger.cpp">
+      <Filter>Source\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Common\Time.cpp">
+      <Filter>Source\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\OEngine.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Simulation.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\SplashScreen.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Platform\WIN32\IApplication.cpp">
+      <Filter>Source\Platform\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Platform\WIN32\SubObject.cpp">
+      <Filter>Source\Platform\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Platform\WIN32\Win32Caption.cpp">
+      <Filter>Source\Platform\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Platform\WIN32\Win32Utils.cpp">
+      <Filter>Source\Platform\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Platform\WIN32\Window.cpp">
+      <Filter>Source\Platform\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\D3D12\Device.cpp">
+      <Filter>Source\D3D12</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\D3D12\MathHelper.cpp">
+      <Filter>Source\D3D12</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\D3D12\d3dUtil.cpp">
+      <Filter>Source\D3D12</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Object\Box.cpp">
+      <Filter>Source\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Object\GameObject.cpp">
+      <Filter>Source\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Hierarchy.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Manager\ObjectManager.cpp">
+      <Filter>Source\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Inspector.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
