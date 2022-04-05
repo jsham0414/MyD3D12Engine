@@ -9,7 +9,13 @@ GUITextBox::GUITextBox(XMFLOAT3 pos, WSTRING text, HWND parent, DWORD flag)
 }
 
 GUITextBox::GUITextBox(HWND parent, PROPERTY* prop, DWORD flag) : GUILayout() {
-    m_Text = Factory<GUILabel>::CreateLabel(parent, prop->Name, flag);
+    m_Flag = flag;
+    m_ParentHandle = parent;
+
+    m_hID = InspectorView::GetGUIID();
+
+    m_Text = Factory<GUILabel>::CreateLabel(parent, XMFLOAT3(0, InspectorView::GetProperty()->size() * 25, 0), prop->Name, flag);
+    m_Edit = Factory<GUIEdit>::CreateEdit(parent, XMFLOAT3(150, InspectorView::GetProperty()->size() * 25, 0), prop->ToString(), flag);
 }
 
 GUITextBox::~GUITextBox() {
@@ -27,63 +33,22 @@ VOID GUITextBox::Initialize() {
 }
 
 VOID GUITextBox::Progress() {
-    if (m_Flag & GUI_NUMONLY) {
-        NumberCheck();
-    }
+    m_Text->Progress();
+    m_Edit->Progress();
 }
 
 VOID GUITextBox::Render(HDC hdc) {
-    switch (m_Property->Type) {
-    case PrimitiveType::FLOAT:
-        SetBkMode(hdc, TRANSPARENT);
-        SetTextColor(hdc, RGB(255, 255, 255));
-        SetTextAlign(hdc, TA_LEFT);
-
-        TextOut(hdc, m_Position.x, m_Position.y + 2, m_Property->Name, wcslen(m_Property->Name));
-        break;
-    }
+    m_Text->Render(hdc);
+    m_Edit->Render(hdc);
 }
 
 VOID GUITextBox::Release() {
 	DestroyWindow(m_hWnd);
+    SAFE_DELETE(m_Text);
+    SAFE_DELETE(m_Edit);
 }
 
-VOID GUITextBox::NumberCheck() {
-    WCHAR str[256];
-
-    GetWindowText(Handle(), str, _countof(str));
-
-    WSTRING wstr(str);
-
-    LPWSTR pBuff = str;
-
-    bool bProblem = false;
-    bool bDecimalPoint = false;
-
-    for (int indx = 0; indx < wstr.length(); indx++) {
-        char nChar = str[indx];
-
-        if (((nChar >= '0') && (nChar <= '9')) || 
-            nChar == 46 ||
-            (nChar == '-' && indx == 0)) {
-        } else {
-            if (nChar == '.' && indx > 0 && !bDecimalPoint) {
-                bDecimalPoint = true;
-            } else {
-                bProblem = true;
-                break;
-            }
-        }
-    }
-
-
-    if (bProblem) {
-        SetWindowText(Handle(), m_LastGood.c_str());
-        Edit_SetSel(Handle(), m_LOCaret, m_HICaret); // SendMessage(Handle(), EM_SETSEL, m_LOCaret, m_HICaret);
-        MessageBeep(MB_OK);
-    } else {
-        m_LastGood = wstr.c_str();
-        m_LOCaret = LOWORD(Edit_GetSel(Handle())); // LOWORD(SendMessage(Handle(), EM_GETSEL, NULL, NULL)); 와 같다
-        m_HICaret = HIWORD(Edit_GetSel(Handle()));
-    }
+VOID GUITextBox::ValueChanged() {
+    // GUIEdit에 Function변수를 추가하여 람다식을 대입하고 그 람다식은 실행되었을 때 자동으로 세팅 된 변수에 값을 대입하는 기능을 추가해야 함.
+    m_Edit->ValueChanged();
 }

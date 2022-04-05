@@ -7,6 +7,13 @@ GUILabel::GUILabel(XMFLOAT3 pos, INT width, INT height, WSTRING text, DWORD flag
 	m_Flag = flag;
 }
 
+GUILabel::GUILabel(HWND parent, XMFLOAT3 pos, WSTRING text, DWORD flag) : GUILayout() {
+	m_ParentHandle = parent;
+	m_Position = pos;
+	m_Text = text;
+	m_Flag = flag;
+}
+
 GUILabel::~GUILabel() {
 }
 

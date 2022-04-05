@@ -2,7 +2,7 @@
 
 class SYSTEM_DLL GUIEdit : public GUILayout {
 public:
-	GUIEdit(XMFLOAT3 pos, DWORD flag = 0);
+	GUIEdit(HWND parent, XMFLOAT3 pos, WSTRING text, DWORD flag = 0);
 	virtual ~GUIEdit();
 
 public:
@@ -13,11 +13,12 @@ public:
 	virtual VOID Release();
 
 public:
+	virtual VOID ValueChanged();
+
 	VOID NumberCheck();
 
-
 private:
-	WSTRING m_LastGood;
+	WSTRING m_Text;
 	INT m_HICaret, m_LOCaret;
 
 

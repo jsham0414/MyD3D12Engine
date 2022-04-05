@@ -34,6 +34,10 @@ namespace InspectorView {
 	VOID SYSTEM_DLL ObjectChanged(GameObject* selected) {
 		Window->ObjectChanged(selected);
 	}
+
+	std::vector<std::pair<WSTRING, PROPERTY*>>* GetProperty() {
+		return Window->GetProperty();
+	}
 	
 	VOID SYSTEM_DLL AddProperty(GUILayout* type) {
 		type->ParentHandle(Window->Handle());
@@ -128,7 +132,8 @@ VOID Inspector::ExecuteCommand(WPARAM wParam, LPARAM lParam) {
 		if ((*iter)->ID() == (HMENU)LOWORD(wParam)) {
 			switch (HIWORD(wParam)) {
 			case EN_CHANGE:
-				switch ((*iter)->Property()->Type) {
+				(*iter)->ValueChanged();
+				/*switch ((*iter)->Property()->Type) {
 				case PrimitiveType::FLOAT:
 					WCHAR str[256];
 					GetWindowText((*iter)->Handle(), str, _countof(str));
@@ -136,7 +141,7 @@ VOID Inspector::ExecuteCommand(WPARAM wParam, LPARAM lParam) {
 					float* pValue = reinterpret_cast<float*>((*iter)->Property()->Data);
 					(*pValue) = fValue;
 					break;
-				}
+				}*/
 			}
 		}
 	}

@@ -12,7 +12,8 @@ public:
 	virtual VOID Progress()PURE;
 	virtual VOID Render(HDC hdc)PURE;
 	virtual VOID Release()PURE;
-
+public:
+	virtual VOID ValueChanged()PURE;
 protected:
 	HWND m_hWnd, m_ParentHandle;
 	XMFLOAT3 m_Position;

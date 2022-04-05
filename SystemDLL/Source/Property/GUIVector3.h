@@ -13,6 +13,8 @@ public:
 	virtual VOID Release();
 
 public:
+	virtual VOID ValueChanged();
+
 	VOID NumberCheck();
 
 private:

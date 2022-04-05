@@ -91,8 +91,18 @@ typedef struct tagPropertyInfo {
 		Data = data;
 	}
 
+	WSTRING ToString() {
+		switch (Type) {
+		case PrimitiveType::FLOAT:
+			return std::to_wstring(*reinterpret_cast<FLOAT*>(Data));
+		default:
+			return WSTRING();
+		}
+	}
+
 	//VOID Next(PROPERTY* next) { Next = next; }
 
 } PROPERTY;
 
 #define CREATE_PROPERTY(type, name, data) Factory<PROPERTY>::CreateProperty(type, name, data)
+#define CREATE_PROPERTY(type, data) Factory<PROPERTY>::CreateProperty(type, GET_NAME_WC(data), (VOID*)&data)

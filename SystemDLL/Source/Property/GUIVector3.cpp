@@ -38,6 +38,10 @@ VOID GUIVector3::Release() {
     DestroyWindow(m_hWnd);
 }
 
+VOID GUIVector3::ValueChanged() {
+    return VOID();
+}
+
 VOID GUIVector3::NumberCheck() {
     WCHAR str[256];
 

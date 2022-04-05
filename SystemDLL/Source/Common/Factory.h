@@ -16,8 +16,8 @@ public:
 		return (T1*)pObject;
 	}
 
-	static T1* CreateEdit(XMFLOAT3 pos, DWORD flag) {
-		T1* pObject = new T1(pos, flag);
+	static T1* CreateEdit(HWND parent, XMFLOAT3 pos, WSTRING text, DWORD flag = 0) {
+		T1* pObject = new T1(parent, pos, text, flag);
 		return (T1*)pObject;
 	}
 
@@ -31,8 +31,8 @@ public:
 		return (T1*)pObject;
 	}
 
-	static T1* CreateLabel(HWND parent, WSTRING text, DWORD flag = 0) {
-		T1* pObject = new T1(pos, text, parent, flag);
+	static T1* CreateLabel(HWND parent, XMFLOAT3 pos, WSTRING text, DWORD flag = 0) {
+		T1* pObject = new T1(parent, pos, text, flag);
 		return pObject;
 	}
 

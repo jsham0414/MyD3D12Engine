@@ -5,6 +5,8 @@
 #include <crtdbg.h>
 #endif
 
+#pragma warning(disable : 4251)
+
 #ifdef WIN32
 #include <windows.h>
 #include <windowsx.h>

@@ -18,8 +18,9 @@ public:
 	virtual VOID Release();
 
 public:
-	VOID NumberCheck();
+	virtual VOID ValueChanged();
 
+	VOID NumberCheck();
 private:
 	GUILabel* m_Text;
 	GUIEdit* m_Edit;
