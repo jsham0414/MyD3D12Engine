@@ -2,7 +2,7 @@
 #include <string>
 
 class SYSTEM_DLL Logger {
-	// 싱글톤 클래스 사용을 위한 레퍼런스
+	// ?��????�래???�용???�한 ?�퍼?�스
 private:
 	static Logger* instance;
 public:

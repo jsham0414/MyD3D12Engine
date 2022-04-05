@@ -6,11 +6,12 @@
 
 #include "Common/Logger.h"
 #include "Common/Time.h"
-#include "Common/Factory.h"
 #include "Core/PerGameSettings.h"
 #include "D3D12/MathHelper.h"
 #include "D3D12/d3dUtil.h"
 #include "D3D12/Device.h"
+#include "Property/GUILayout.h"
+#include "Common/Factory.h"
 
 #include "Manager/ObjectManager.h"
 

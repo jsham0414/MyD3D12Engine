@@ -11,7 +11,7 @@ namespace Win32 {
 	};
 
 	namespace Utils {
-		// AddBitmap 선언
+		// AddBitmap ?�언
 		BOOL AddBitmap(CONST WCHAR* szFileName, HDC hWinDC, INT x = 0, INT y = 0);
 
 		inline VOID SYSTEM_DLL ModifyWindowStyle(HWND hWnd, DWORD flagsToDisable, DWORD flagsToEnable) {

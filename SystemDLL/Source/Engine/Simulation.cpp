@@ -1,10 +1,6 @@
 #include "SystemDLL.h"
 #include "Simulation.h"
-#include "Engine/Hierarchy.h"
-#include "Engine/Inspector.h"
 #include "Engine/SplashScreen.h"
-#include <DirectXMath.h>
-#include <D3D12/MathHelper.h>
 
 using namespace DirectX;
 
@@ -15,11 +11,7 @@ namespace SystemDLL {
 	}
 
 	Simulation::~Simulation() {
-		ObjectManager::GetInstance()->Release();
 
-		SplashScreen::Close();
-		InspectorView::Close();
-		HierarchyView::Close();
 	}
 
 	VOID Simulation::PreInitialize() {
@@ -27,19 +19,15 @@ namespace SystemDLL {
 		Logger::PrintLog(L"Boot Time : %s\n", Time::GetDateTimeString().c_str());
 		Logger::PrintLog(L"Engine Mode : %s\n", Engine::EngineModeToString().c_str());
 
-		SplashScreen::Open();
-		InspectorView::Open();
-		HierarchyView::Open();
-
 		Win32::Window::RegisterNewClass();
 		Win32::Window::Initialize();
 
 		if (FAILED(Device::GetInstance()->InitDevice(Handle()))) {
-			Logger::GetInstance()->PrintLog(L"D3D12 초기화 실패");
+			Logger::GetInstance()->PrintLog(L"D3D12 초기???�패");
 			return;
 		}
 
-		//ObjectManager::GetInstance()->AddObject(Factory<GameObject, GameObject>::CreateInstance());
+		ObjectManager::GetInstance()->AddObject(Factory<GameObject>::CreateInstance());
 		//ObjectManager::GetInstance()->AddObject(Factory<GameObject, GameObject>::CreateInstance());
 		//ObjectManager::GetInstance()->AddObject(Factory<GameObject, GameObject>::CreateInstance());
 
@@ -62,6 +50,9 @@ namespace SystemDLL {
 		Device::GetInstance()->BeginRender();
 		ObjectManager::GetInstance()->Render();
 		Device::GetInstance()->EndRender();
+	}
+
+	VOID Simulation::Release() {
 	}
 
 

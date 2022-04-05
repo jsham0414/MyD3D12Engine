@@ -36,7 +36,6 @@ namespace Win32 {
 		WindowType m_Type;
 
 		BOOL m_Active;
-		BOOL m_PaintOverride = false;
 		DWORD m_Flags;
 	public:
 		SIZE Size() { return m_Size; }

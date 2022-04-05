@@ -1,13 +1,41 @@
 #pragma once
 
-template <typename T1, typename T2>
+template <typename T1>
 class Factory {
 public:
 	static T1* CreateInstance() {
-		T2* pObject = new T2;
+		T1* pObject = new T1;
 		pObject->Initialize();
 		return (T1*)pObject;
 	}
+
+	static T1* CreateProperty(PrimitiveType type, const WCHAR* name, VOID* data) {
+
+
+		T1* pObject = new T1(type, name, data);
+		return (T1*)pObject;
+	}
+
+	static T1* CreateEdit(XMFLOAT3 pos, DWORD flag) {
+		T1* pObject = new T1(pos, flag);
+		return (T1*)pObject;
+	}
+
+	static T1* CreateGUIVector3(PrimitiveType type, const WCHAR* name, VOID* data) {
+		T1* pObject = new T1(type, name, data);
+		return (T1*)pObject;
+	}
+
+	static T1* CreateGUITextbox(HWND parent, PROPERTY* prop, DWORD flag = 0) {
+		T1* pObject = new T1(parent, prop, flag);
+		return (T1*)pObject;
+	}
+
+	static T1* CreateLabel(HWND parent, WSTRING text, DWORD flag = 0) {
+		T1* pObject = new T1(pos, text, parent, flag);
+		return pObject;
+	}
+
 public:
 	Factory() {};
 	~Factory() {};

@@ -42,6 +42,11 @@
     <ClCompile Include="Source\Platform\WIN32\Win32Caption.cpp" />
     <ClCompile Include="Source\Platform\WIN32\Win32Utils.cpp" />
     <ClCompile Include="Source\Platform\WIN32\Window.cpp" />
+    <ClCompile Include="Source\Property\GUIEdit.cpp" />
+    <ClCompile Include="Source\Property\GUILabel.cpp" />
+    <ClCompile Include="Source\Property\GUILayout.cpp" />
+    <ClCompile Include="Source\Property\GUITextBox.cpp" />
+    <ClCompile Include="Source\Property\GUIVector3.cpp" />
     <ClCompile Include="Source\System\SystemDLL.cpp" />
     <ClCompile Include="Source\System\SystemFunc.cpp" />
   </ItemGroup>
@@ -72,6 +77,11 @@
     <ClInclude Include="Source\Platform\WIN32\Win32Utils.h" />
     <ClInclude Include="Source\Platform\WIN32\Window.h" />
     <ClInclude Include="Source\Platform\WIN32\WinEntry.h" />
+    <ClInclude Include="Source\Property\GUIEdit.h" />
+    <ClInclude Include="Source\Property\GUILabel.h" />
+    <ClInclude Include="Source\Property\GUILayout.h" />
+    <ClInclude Include="Source\Property\GUITextBox.h" />
+    <ClInclude Include="Source\Property\GUIVector3.h" />
     <ClInclude Include="Source\System\SystemDLL.h" />
     <ClInclude Include="Source\System\SystemFunc.h" />
   </ItemGroup>

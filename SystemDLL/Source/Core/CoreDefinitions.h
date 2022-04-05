@@ -26,6 +26,9 @@ public:												\
 	}													\
 
 #define WF_NOTUSECAPTION 0x01
+#define WF_NOTUSEPARENTPAINT 0x02
+
+#define GUI_NUMONLY 0x01
 
 #define GET_SINGLE(type) (*type::GetInstance())
 
@@ -50,5 +53,46 @@ inline VOID SAFE_DELETE_ARRAY_ARRAY(T& pointer, int n) {
 	if (pointer) { for (int i = 0; i < n; i++) { SAFE_DELETE_ARRAY((pointer)[i]); } delete[](pointer); pointer = NULL; }
 }
 
+inline const wchar_t* GetWC(const char* c) {
+	const size_t cSize = strlen(c) + 1;
+	wchar_t* wc = new wchar_t[cSize];
+	mbstowcs(wc, c, cSize);
+
+	return wc;
+}
+
+#define GET_NAME(n) #n
+#define GET_NAME_WC(n) GetWC(GET_NAME(n))
+
+enum class PrimitiveType {
+	INT = 0,
+	FLOAT,
+	DOUBLE,
+	SHORT,
+	LONG,
+	CHAR,
+	BOOL,
+	BYTE,
+	FLOAT3,
+};
+
 typedef std::wstring WSTRING;
 typedef std::string STRING;
+
+
+typedef struct tagPropertyInfo {
+	PrimitiveType Type;
+	const WCHAR* Name;
+	VOID* Data;
+
+	tagPropertyInfo(PrimitiveType type, const WCHAR* name, VOID* data) {
+		Type = type;
+		Name = name;
+		Data = data;
+	}
+
+	//VOID Next(PROPERTY* next) { Next = next; }
+
+} PROPERTY;
+
+#define CREATE_PROPERTY(type, name, data) Factory<PROPERTY>::CreateProperty(type, name, data)

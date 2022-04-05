@@ -23,7 +23,7 @@ VOID Logger::PrintLog(const WCHAR* fmt, ...) {
 
 	OutputDebugString(buf);
 
-	// %AppData%/프로젝트 명/Log/프로젝트 명.log 형식으로 로그가 남는다.
+	// %AppData%/?�로?�트 �?Log/?�로?�트 �?log ?�식?�로 로그가 ?�는??
 	std::wfstream outFile;
 	WSTRING wstr = WSTRING(LogDirectory() + L"\\" + LogFile());
 	outFile.open(wstr, std::ios_base::app);
@@ -34,7 +34,7 @@ VOID Logger::PrintLog(const WCHAR* fmt, ...) {
 		outFile.close();
 		OutputDebugString(s.c_str());
 	} else {
-		MessageBox(NULL, L"로그 파일을 열 수 없습니다.", L"로거 오류", MB_OK);
+		MessageBox(NULL, L"로그 ?�일???????�습?�다.", L"로거 ?�류", MB_OK);
 	}
 
 }

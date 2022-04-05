@@ -1,4 +1,4 @@
-#include "SystemDLL.h"
+﻿#include "SystemDLL.h"
 #include "Window.h"
 #include <Core/CoreDefinitions.cpp>
 
@@ -27,7 +27,7 @@ namespace Win32 {
 			((desktop.right / 2) - (m_Size.cx / 2)), ((desktop.bottom / 2) - (m_Size.cy / 2)),
 			m_Size.cx, m_Size.cy, nullptr, nullptr, hInstance(), (void*)this);
 		if (!m_hWnd) {
-			MessageBox(0, L"윈도우 생성에 실패했습니다.", 0, 0);
+			MessageBox(0, L"?덈룄???앹꽦???ㅽ뙣?덉뒿?덈떎.", 0, 0);
 			return;
 		}
 
@@ -106,7 +106,7 @@ namespace Win32 {
 	}
 
 	VOID Window::OnNonClientPaint(HRGN region) {
-		// 초기화 단계
+		// 珥덇린???④퀎
 
 		HDC hdc = GetDCEx(Handle(), region, DCX_WINDOW | DCX_INTERSECTRGN | DCX_USETYPE);
 
@@ -118,7 +118,7 @@ namespace Win32 {
 		HBITMAP hbmMem = CreateCompatibleBitmap(hdc, size.cx, size.cy);
 		HANDLE hOld = SelectObject(hdc, hbmMem);
 
-		// 그리기 단계
+		// 洹몃━湲??④퀎
 
 		HBRUSH brush = CreateSolidBrush(RGB(46, 46, 46));
 
@@ -132,11 +132,11 @@ namespace Win32 {
 
 		PaintCaption(hdc);
 
-		// 해제 단계
+		// ?댁젣 ?④퀎
 
 		DeleteObject(brush);
 
-		// 더블 버퍼링
+		// ?붾툝 踰꾪띁留?
 		BitBlt(hdc, 0, 0, size.cx, size.cy, hdc, 0, 0, SRCCOPY);
 
 		SelectObject(hdc, hOld);
@@ -227,11 +227,18 @@ namespace Win32 {
 		SystemParametersInfo(SPI_GETWORKAREA, 0, &WorkArea, 0);
 		if (rect.top < WorkArea.top + 5 && !Win32::Utils::IsWindowFullscreen(Handle())) {
 			Win32::Utils::MaximizeWindow(Handle());
-			return;
 		}
+
+		if (m_Flags & WF_NOTUSEPARENTPAINT)
+			return;
+
+		InvalidateRect(Handle(), NULL, TRUE);
 	}
 
 	VOID Window::OnPaint() {
+		if (m_Flags & WF_NOTUSEPARENTPAINT)
+			return;
+
 		PAINTSTRUCT ps;
 		HDC hdc = BeginPaint(Handle(), &ps);
 
@@ -260,9 +267,9 @@ namespace Win32 {
 			SetTextColor(hdc, Active() ? RGB(255, 255, 255) : RGB(92, 92, 92));
 
 			/* 
-			DT_SINGLELINE		텍스트를 한 줄에 표시한다
-			DT_VCENTER		텍스트를 수직 가운데에 정렬합니다.
-			DT_CENTER			텍스트를 가운데 정렬합니다.
+			DT_SINGLELINE		?띿뒪?몃? ??以꾩뿉 ?쒖떆?쒕떎
+			DT_VCENTER		?띿뒪?몃? ?섏쭅 媛?대뜲???뺣젹?⑸땲??
+			DT_CENTER			?띿뒪?몃? 媛?대뜲 ?뺣젹?⑸땲??
 			*/
 			DrawText(hdc, m_Title.c_str(), wcslen(m_Title.c_str()), &rect, DT_SINGLELINE | DT_VCENTER | DT_CENTER);
 		}
@@ -294,10 +301,10 @@ namespace Win32 {
 				DeleteObject(brush);
 			}
 
-			if (button->Text.compare(L"🗖") == 0 && Win32::Utils::IsWindowFullscreen(Handle())) {
-				button->Text = L"🗗";
-			} else if (button->Text.compare(L"🗗") == 0 && !Win32::Utils::IsWindowFullscreen(Handle())) {
-				button->Text = L"🗖";
+			if (button->Text.compare(L"?뿒") == 0 && Win32::Utils::IsWindowFullscreen(Handle())) {
+				button->Text = L"?뿓";
+			} else if (button->Text.compare(L"?뿓") == 0 && !Win32::Utils::IsWindowFullscreen(Handle())) {
+				button->Text = L"?뿒";
 			}
 
 			DrawText(hdc, button->Text.c_str(), wcslen(button->Text.c_str()), &button->Rect, DT_SINGLELINE | DT_VCENTER | DT_CENTER);

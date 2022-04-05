@@ -7,6 +7,7 @@
 #define IDS_WINDOWCLASS                 103
 #define IDS_SHORTNAME                   104
 #define IDS_SPLASHURL                   105
+#define IDC_TEXTBOX						106
 
 // Next default values for new objects
 // 

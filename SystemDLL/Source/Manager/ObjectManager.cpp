@@ -29,7 +29,7 @@ VOID ObjectManager::Render() {
 }
 
 VOID ObjectManager::Release() {
-	for (std::vector<GameObject*>::iterator iter = m_Objects.begin(); iter != m_Objects.end();) {
+	for (std::vector<GameObject*>::iterator iter = m_Objects.begin(); iter != m_Objects.end(); iter++) {
 		SAFE_DELETE(*iter);
 	}
 }

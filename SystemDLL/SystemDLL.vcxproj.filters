@@ -32,6 +32,9 @@
     <Filter Include="Source\Manager">
       <UniqueIdentifier>{0e2521c7-9b33-4a3b-b621-340fe9c8e9b7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\GUILayout">
+      <UniqueIdentifier>{e4081d87-0b38-4e5c-93b1-2f08db7d6f3e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\System\SystemDLL.h">
@@ -118,6 +121,21 @@
     <ClInclude Include="Source\Engine\Inspector.h">
       <Filter>Source\Engine</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Property\GUILayout.h">
+      <Filter>Source\GUILayout</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Property\GUILabel.h">
+      <Filter>Source\GUILayout</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Property\GUITextBox.h">
+      <Filter>Source\GUILayout</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Property\GUIVector3.h">
+      <Filter>Source\GUILayout</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Property\GUIEdit.h">
+      <Filter>Source\GUILayout</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\System\SystemDLL.cpp">
@@ -194,6 +212,21 @@
     </ClCompile>
     <ClCompile Include="Source\Engine\Inspector.cpp">
       <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Property\GUILayout.cpp">
+      <Filter>Source\GUILayout</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Property\GUILabel.cpp">
+      <Filter>Source\GUILayout</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Property\GUITextBox.cpp">
+      <Filter>Source\GUILayout</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Property\GUIVector3.cpp">
+      <Filter>Source\GUILayout</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Property\GUIEdit.cpp">
+      <Filter>Source\GUILayout</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

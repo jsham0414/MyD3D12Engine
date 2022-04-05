@@ -2,16 +2,36 @@
 
 namespace InspectorView {
 	VOID SYSTEM_DLL Open();
+	VOID SYSTEM_DLL Update();
 	VOID SYSTEM_DLL Close();
+	VOID SYSTEM_DLL ObjectChanged(GameObject* selected);
+	HMENU SYSTEM_DLL GetGUIID();
+	VOID SYSTEM_DLL AddProperty(GUILayout* type);
+	VOID SYSTEM_DLL AddProperty(PrimitiveType type, const WCHAR* name, VOID* data);
 }
 
+
+
 // Inspector.h
-// 선택된 오브젝트의 정보를 볼 수 있다.
+// ?�택???�브?�트???�보�?�????�다.
 class SYSTEM_DLL Inspector : public Win32::Window {
 public:
 	Inspector();
 	~Inspector();
+public:
+	std::vector<std::pair<WSTRING, PROPERTY*>> m_Property;
+	std::vector<GUILayout*> m_GUILayout;
+
+	GameObject* m_Selected;
+public:
+	VOID Update();
+	VOID Release();
+	VOID ObjectChanged(GameObject* selected);
+	VOID ExecuteCommand(WPARAM wParam, LPARAM lParam);
+	virtual LRESULT MessageHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) override;
+	VOID OnPaint();
 
 public:
-	virtual LRESULT MessageHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) override;
+	std::vector<std::pair<WSTRING, PROPERTY*>>* GetProperty() { return &m_Property; }
+	std::vector<GUILayout*>* GetGUILayout() { return &m_GUILayout; }
 };

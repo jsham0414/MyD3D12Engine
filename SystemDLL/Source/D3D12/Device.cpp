@@ -15,7 +15,7 @@ HRESULT Device::InitDevice(HWND hWnd) {
 
 #if defined(DEBUG) || defined(_DEBUG)
     {
-        // D3D12 디버그층을 활성화한다.
+        // D3D12 ?�버그층???�성?�한??
         ComPtr<ID3D12Debug> debugController;
         ThrowIfFailed(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController)));
         debugController->EnableDebugLayer();
@@ -23,13 +23,13 @@ HRESULT Device::InitDevice(HWND hWnd) {
 #endif
     ThrowIfFailed(CreateDXGIFactory1(IID_PPV_ARGS(&m_dxgiFactory)));
 
-    // 하드웨어 어댑터를 나타내는 장치를 생성해 본다.
+    // ?�드?�어 ?�댑?��? ?��??�는 ?�치�??�성??본다.
     HRESULT hardwareResult = D3D12CreateDevice(
-        nullptr, // 기본 어댑터
+        nullptr, // 기본 ?�댑??
         D3D_FEATURE_LEVEL_11_0,
         IID_PPV_ARGS(&m_Device));
 
-    // 실패했다면 WARP 어댑터를 나타내는 장치를 생성한다.
+    // ?�패?�다�?WARP ?�댑?��? ?��??�는 ?�치�??�성?�다.
     if (FAILED(hardwareResult)) {
         ComPtr<IDXGIAdapter> pWarpAdapter;
         ThrowIfFailed(m_dxgiFactory->EnumWarpAdapter(IID_PPV_ARGS(&pWarpAdapter)));

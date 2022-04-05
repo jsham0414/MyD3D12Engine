@@ -9,7 +9,7 @@ namespace SplashScreen {
 }
 
 // SplashWindow.h
-// 엔진 시작 화면
+// ?�진 ?�작 ?�면
 class SYSTEM_DLL SplashWindow : public Win32::Window {
 public:
 	SplashWindow();

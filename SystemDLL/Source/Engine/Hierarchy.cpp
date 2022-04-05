@@ -1,5 +1,6 @@
 #include "SystemDLL.h"
 #include "Hierarchy.h"
+#include "Inspector.h"
 
 namespace HierarchyView {
 	Hierarchy* m_pHierarchyWindow;
@@ -26,7 +27,6 @@ Hierarchy::Hierarchy() : Win32::Window(L"Hierarchy", NULL) {
 	m_Flags = WF_NOTUSECAPTION;
 
 	Size(300, 600);
-	m_PaintOverride = true;
 
 	Win32::Window::RegisterNewClass();
 	Win32::Window::Initialize();
@@ -60,19 +60,20 @@ VOID Hierarchy::OnLMBDown() {
 	pt.x -= rect.left;
 	pt.y -= rect.top;
 
+	m_Selected = nullptr;
+
 	INT i = 0;
 	auto objs = ObjectManager::GetInstance()->GetObjects();
 	for (auto iter = objs->begin(); iter != objs->end(); iter++) {
 		RECT rc = { 8, 32 + i * 24, 8 + m_Size.cx, 32 + (i + 1) * 24 };
 		if (rc.left < pt.x && rc.right > pt.x && rc.top < pt.y && rc.bottom > pt.y) {
 			m_Selected = *iter;
-			InvalidateRect(Handle(), NULL, TRUE);
-			return;
+			break;
 		}
 		i++;
 	}
 
-	m_Selected = nullptr;
+	InspectorView::ObjectChanged(m_Selected);
 	InvalidateRect(Handle(), NULL, TRUE);
 }
 

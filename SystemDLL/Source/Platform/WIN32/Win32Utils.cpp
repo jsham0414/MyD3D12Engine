@@ -23,7 +23,7 @@ namespace Win32 {
 				return false;
 			}
 
-			// 메모리 할당 해제
+			// 메모�??�당 ?�제
 			::DeleteDC(hLocalDC);
 			::DeleteObject(hBitmap);
 			return true;

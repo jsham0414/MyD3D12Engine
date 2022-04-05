@@ -7,6 +7,7 @@
 
 #ifdef WIN32
 #include <windows.h>
+#include <windowsx.h>
 #include <wrl.h>
 #endif
 
@@ -22,5 +23,6 @@
 
 #include <DirectXColors.h>
 #include <D3D12/MathHelper.h>
+#include <DirectXMath.h>
 
 #include "Core/Core.h"

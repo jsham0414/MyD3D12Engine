@@ -10,11 +10,12 @@ namespace Win32 {
 		virtual ~IApplication() {};
 
 	public:
-		// 게임 초기 변수 세팅
+		// 게임 초기 변???�팅
 		virtual VOID SetupPerGameSettings()PURE;
 		virtual VOID PreInitialize()PURE;
 		virtual VOID Initialize()PURE;
 		virtual VOID Update()PURE;
+		virtual VOID Release()PURE;
 
 	};
 

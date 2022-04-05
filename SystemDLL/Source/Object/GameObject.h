@@ -1,5 +1,7 @@
 #pragma once
 
+
+
 class SYSTEM_DLL GameObject {
 public:
 	GameObject() {};
@@ -9,10 +11,15 @@ public:
 	VOID Update();
 	VOID Render();
 	VOID Release();
-	void BuildBoxGeometry();
+
+	VOID BuildBoxGeometry();
+	virtual VOID LoadProperties(HWND hWnd);
 private:
 	std::unique_ptr<MeshGeometry> mBoxGeo = nullptr;
+	std::vector<PROPERTY*> m_Property;
 
+	//XMFLOAT3* m_Position;
+	XMFLOAT3* m_Position;
 	XMFLOAT4X4 mWorld = MathHelper::Identity4x4();
 	XMFLOAT4X4 mView = MathHelper::Identity4x4();
 	XMFLOAT4X4 mProj = MathHelper::Identity4x4();

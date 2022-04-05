@@ -15,6 +15,7 @@ namespace SystemDLL {
 		virtual VOID Update() override;
 		VOID OnResize();
 		VOID Render();
+		virtual VOID Release()PURE;
 		LRESULT MessageHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	};
 }

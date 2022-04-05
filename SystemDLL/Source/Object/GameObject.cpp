@@ -1,9 +1,14 @@
 #include "SystemDLL.h"
 #include "GameObject.h"
+#include "Engine/Inspector.h"
+#include "Property/GUILabel.h"
+#include "Property/GUITextBox.h"
+#include "Property/GUIVector3.h"
 
 using Microsoft::WRL::ComPtr;
 using namespace DirectX;
 using namespace DirectX::PackedVector;
+using namespace Win32::Utils;
 
 struct Vertex {
 	XMFLOAT3 Pos;
@@ -11,6 +16,8 @@ struct Vertex {
 };
 
 VOID GameObject::Initialize() {
+	m_Position = new XMFLOAT3(0, 0, 0);
+
 	BuildBoxGeometry();
 }
 
@@ -22,7 +29,7 @@ VOID GameObject::Update() {
 
 	// Build the view matrix.
 	XMVECTOR pos = XMVectorSet(x, y, z, 1.0f);
-	XMVECTOR target = XMVectorZero();
+	XMVECTOR target = XMVectorSet(m_Position->x, m_Position->y, m_Position->z, 1.0f);
 	XMVECTOR up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 
 	XMMATRIX view = XMMatrixLookAtLH(pos, target, up);
@@ -125,4 +132,10 @@ void GameObject::BuildBoxGeometry() {
 	mBoxGeo->DrawArgs["box"] = submesh;
 
 	Device::GetInstance()->ExcuteCommendList();
+}
+
+VOID GameObject::LoadProperties(HWND hWnd) {
+	// 게임 오브젝트 자체를 줘서 .m_Position을 가져오자
+	Factory<GUITextBox>::CreateGUITextbox(CREATE_PROPERTY(PrimitiveType::FLOAT3, GET_NAME_WC(m_Position), (VOID*)&m_Position));
+	//InspectorView::AddProperty(PrimitiveType::FLOAT3, GET_NAME_WC(m_Position), (VOID*)&m_Position);
 }

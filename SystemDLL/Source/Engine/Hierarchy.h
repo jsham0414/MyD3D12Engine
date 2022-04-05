@@ -7,7 +7,7 @@ namespace HierarchyView {
 }
 
 // Hierarchy.h
-// 씬 상의 오브젝트를 선택하거나 볼 수 있다.
+// ???�의 ?�브?�트�??�택?�거??�????�다.
 class SYSTEM_DLL Hierarchy : public Win32::Window {
 public:
 	Hierarchy();
