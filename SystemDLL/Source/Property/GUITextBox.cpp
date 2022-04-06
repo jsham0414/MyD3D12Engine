@@ -13,9 +13,11 @@ GUITextBox::GUITextBox(HWND parent, PROPERTY* prop, DWORD flag) : GUILayout() {
     m_ParentHandle = parent;
 
     m_hID = InspectorView::GetGUIID();
+    m_Property = prop;
 
-    m_Text = Factory<GUILabel>::CreateLabel(parent, XMFLOAT3(0, InspectorView::GetProperty()->size() * 25, 0), prop->Name, flag);
-    m_Edit = Factory<GUIEdit>::CreateEdit(parent, XMFLOAT3(150, InspectorView::GetProperty()->size() * 25, 0), prop->ToString(), flag);
+    m_Text = Factory<GUILabel>::CreateLabel(parent, XMFLOAT3(0, InspectorView::GetGUILayout()->size() * 25, 0), prop->Name, flag);
+    m_Edit = Factory<GUIEdit>::CreateEdit(parent, XMFLOAT3(150, InspectorView::GetGUILayout()->size() * 25, 0), prop->ToString(), flag);
+    m_Edit->Property(prop);
 }
 
 GUITextBox::~GUITextBox() {
@@ -23,13 +25,9 @@ GUITextBox::~GUITextBox() {
 }
 
 VOID GUITextBox::PreInitialize() {
-    return VOID();
 }
 
 VOID GUITextBox::Initialize() {
-    // GUILabel과 GUIEdit을 합쳐서 만들 것, 하나로 만들지 말 것
-
-    //m_Text = Factory<GUILabel>::CreateLabel
 }
 
 VOID GUITextBox::Progress() {
@@ -49,6 +47,5 @@ VOID GUITextBox::Release() {
 }
 
 VOID GUITextBox::ValueChanged() {
-    // GUIEdit에 Function변수를 추가하여 람다식을 대입하고 그 람다식은 실행되었을 때 자동으로 세팅 된 변수에 값을 대입하는 기능을 추가해야 함.
     m_Edit->ValueChanged();
 }

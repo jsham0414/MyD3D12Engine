@@ -28,6 +28,7 @@ namespace SystemDLL {
 		}
 
 		ObjectManager::GetInstance()->AddObject(Factory<GameObject>::CreateInstance());
+		ObjectManager::GetInstance()->AddObject(Factory<GameObject>::CreateInstance());
 		//ObjectManager::GetInstance()->AddObject(Factory<GameObject, GameObject>::CreateInstance());
 		//ObjectManager::GetInstance()->AddObject(Factory<GameObject, GameObject>::CreateInstance());
 

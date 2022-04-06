@@ -19,6 +19,7 @@
 #include <cassert>
 #include <vector>
 #include <memory>
+#include <functional>
 
 #include <dxgi1_4.h>
 #include <d3d12.h>

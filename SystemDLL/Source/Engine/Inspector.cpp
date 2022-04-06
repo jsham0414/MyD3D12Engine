@@ -35,8 +35,8 @@ namespace InspectorView {
 		Window->ObjectChanged(selected);
 	}
 
-	std::vector<std::pair<WSTRING, PROPERTY*>>* GetProperty() {
-		return Window->GetProperty();
+	std::vector<GUILayout*>* GetGUILayout() {
+		return Window->GetGUILayout();
 	}
 	
 	VOID SYSTEM_DLL AddProperty(GUILayout* type) {
@@ -64,8 +64,6 @@ Inspector::Inspector() : Window(L"Inspector", NULL) {
 
 	Win32::Window::RegisterNewClass();
 	Win32::Window::Initialize();
-
-	//
 }
 
 Inspector::~Inspector() {
@@ -85,8 +83,6 @@ VOID Inspector::ObjectChanged(GameObject* selected) {
 		SAFE_DELETE(*iter);
 	}
 	m_GUILayout.clear();
-
-	//DestroyWindow()
 
 	m_Selected = selected;
 
@@ -124,24 +120,15 @@ VOID Inspector::OnPaint() {
 	}
 
 	EndPaint(Handle(), &ps);
-
 }
 
+// 윈도우 에디트 값이 바뀌었을 때의 처리
 VOID Inspector::ExecuteCommand(WPARAM wParam, LPARAM lParam) {
 	for (auto iter = m_GUILayout.begin(); iter != m_GUILayout.end(); iter++) {
 		if ((*iter)->ID() == (HMENU)LOWORD(wParam)) {
 			switch (HIWORD(wParam)) {
 			case EN_CHANGE:
 				(*iter)->ValueChanged();
-				/*switch ((*iter)->Property()->Type) {
-				case PrimitiveType::FLOAT:
-					WCHAR str[256];
-					GetWindowText((*iter)->Handle(), str, _countof(str));
-					FLOAT fValue = _wtof(str);
-					float* pValue = reinterpret_cast<float*>((*iter)->Property()->Data);
-					(*pValue) = fValue;
-					break;
-				}*/
 			}
 		}
 	}

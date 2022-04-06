@@ -20,6 +20,9 @@ public:
 private:
 	WSTRING m_Text;
 	INT m_HICaret, m_LOCaret;
+	std::function<VOID(VOID)> m_ChangedFunc;
 
-
+public:
+	std::function<VOID(VOID)>* GetChangedFunc() { return &m_ChangedFunc; }
+	VOID ChangedFunc(std::function<VOID(VOID)> func) { m_ChangedFunc = func; }
 };

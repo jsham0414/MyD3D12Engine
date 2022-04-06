@@ -5,7 +5,7 @@ namespace InspectorView {
 	VOID SYSTEM_DLL Update();
 	VOID SYSTEM_DLL Close();
 	VOID SYSTEM_DLL ObjectChanged(GameObject* selected);
-	std::vector<std::pair<WSTRING, PROPERTY*>>* GetProperty();
+	std::vector<GUILayout*>* GetGUILayout();
 	HMENU SYSTEM_DLL GetGUIID();
 	VOID SYSTEM_DLL AddProperty(GUILayout* type);
 	VOID SYSTEM_DLL AddProperty(PrimitiveType type, const WCHAR* name, VOID* data);

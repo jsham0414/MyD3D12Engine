@@ -34,21 +34,38 @@ VOID GUIEdit::Initialize() {
 }
 
 VOID GUIEdit::Progress() {
-    if (m_Flag & GUI_NUMONLY) {
-        NumberCheck();
-    }
 }
 
 VOID GUIEdit::Render(HDC hdc) {
-    //TextOut(hdc, m_Position.x, m_Position.y + 2, m_Text.c_str(), wcslen(m_Text.c_str()));
 }
 
 VOID GUIEdit::Release() {
     DestroyWindow(m_hWnd);
+
+    if (m_Property != nullptr)
+        SAFE_DELETE(m_Property);
 }
 
 VOID GUIEdit::ValueChanged() {
+    if (m_Property == nullptr)
+        return;
 
+    if (m_Property->Data == nullptr)
+        return;
+
+    if (m_Flag & GUI_NUMONLY) {
+        NumberCheck();
+    }
+
+    WCHAR str[256];
+    GetWindowText(Handle(), str, _countof(str));
+    switch (m_Property->Type) {
+    case PrimitiveType::FLOAT:
+        FLOAT fValue = _wtof(str);
+        FLOAT* pValue = reinterpret_cast<FLOAT*>(m_Property->Data);
+        (*pValue) = fValue;
+        break;
+    }
 }
 
 VOID GUIEdit::NumberCheck() {
@@ -67,7 +84,6 @@ VOID GUIEdit::NumberCheck() {
         char nChar = str[indx];
 
         if (((nChar >= '0') && (nChar <= '9')) ||
-            nChar == 46 ||
             (nChar == '-' && indx == 0)) {
         } else {
             if (nChar == '.' && indx > 0 && !bDecimalPoint) {

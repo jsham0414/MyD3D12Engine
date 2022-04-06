@@ -135,7 +135,7 @@ void GameObject::BuildBoxGeometry() {
 }
 
 VOID GameObject::LoadProperties(HWND hWnd) {
-	// 게임 오브젝트 자체를 줘서 .m_Position을 가져오자
-	InspectorView::AddProperty(Factory<GUITextBox>::CreateGUITextbox(hWnd, CREATE_PROPERTY(PrimitiveType::FLOAT, m_Position->x)));
-	//InspectorView::AddProperty(PrimitiveType::FLOAT3, GET_NAME_WC(m_Position), (VOID*)&m_Position);
+	InspectorView::AddProperty(Factory<GUITextBox>::CreateGUITextbox(hWnd, CREATE_PROPERTY(PrimitiveType::FLOAT, m_Position->x), GUI_NUMONLY));
+	InspectorView::AddProperty(Factory<GUITextBox>::CreateGUITextbox(hWnd, CREATE_PROPERTY(PrimitiveType::FLOAT, m_Position->y), GUI_NUMONLY));
+	InspectorView::AddProperty(Factory<GUITextBox>::CreateGUITextbox(hWnd, CREATE_PROPERTY(PrimitiveType::FLOAT, m_Position->z), GUI_NUMONLY));
 }
