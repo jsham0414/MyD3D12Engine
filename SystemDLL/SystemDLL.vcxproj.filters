@@ -136,6 +136,12 @@
     <ClInclude Include="Source\Property\GUIEdit.h">
       <Filter>Source\GUILayout</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Common\Camera.h">
+      <Filter>Source\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Object\CameraObject.h">
+      <Filter>Source\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\System\SystemDLL.cpp">
@@ -228,5 +234,14 @@
     <ClCompile Include="Source\Property\GUIEdit.cpp">
       <Filter>Source\GUILayout</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Common\Camera.cpp">
+      <Filter>Source\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Object\CameraObject.cpp">
+      <Filter>Source\Object</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

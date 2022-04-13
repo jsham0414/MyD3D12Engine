@@ -12,6 +12,7 @@
 #include "D3D12/Device.h"
 #include "Property/GUILayout.h"
 #include "Common/Factory.h"
+#include "Common/Camera.h"
 
 #include "Manager/ObjectManager.h"
 

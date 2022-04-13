@@ -1,6 +1,7 @@
 #include "SystemDLL.h"
 #include "Simulation.h"
 #include "Engine/SplashScreen.h"
+#include "Object/CameraObject.h"
 
 using namespace DirectX;
 
@@ -27,8 +28,9 @@ namespace SystemDLL {
 			return;
 		}
 
-		ObjectManager::GetInstance()->AddObject(Factory<GameObject>::CreateInstance());
-		ObjectManager::GetInstance()->AddObject(Factory<GameObject>::CreateInstance());
+		Camera::GetInstance();
+		ObjectManager::GetInstance()->AddObject(Factory<GameObject>::CreateObject(XMFLOAT3(2, 0, 0)));
+		ObjectManager::GetInstance()->AddObject(Factory<GameObject>::CreateObject(XMFLOAT3(-2, 0, 0)));
 		//ObjectManager::GetInstance()->AddObject(Factory<GameObject, GameObject>::CreateInstance());
 		//ObjectManager::GetInstance()->AddObject(Factory<GameObject, GameObject>::CreateInstance());
 

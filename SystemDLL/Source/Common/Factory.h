@@ -9,9 +9,14 @@ public:
 		return (T1*)pObject;
 	}
 
+	static T1* CreateObject(XMFLOAT3 pos) {
+		T1* pObject = new T1;
+		pObject->Initialize();
+		pObject->Position(pos);
+		return (T1*)pObject;
+	}
+
 	static T1* CreateProperty(PrimitiveType type, const WCHAR* name, VOID* data) {
-
-
 		T1* pObject = new T1(type, name, data);
 		return (T1*)pObject;
 	}

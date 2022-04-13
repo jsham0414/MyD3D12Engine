@@ -16,9 +16,11 @@ struct Vertex {
 };
 
 VOID GameObject::Initialize() {
-	m_Position = new XMFLOAT3(0, 0, 0);
-
+	static INT i = 0;
+	m_Index = i++;
+	m_Position = XMFLOAT3(0, 0, 0);
 	BuildBoxGeometry();
+	BuildConstantBuffers();
 }
 
 VOID GameObject::Update() {
@@ -29,27 +31,37 @@ VOID GameObject::Update() {
 
 	// Build the view matrix.
 	XMVECTOR pos = XMVectorSet(x, y, z, 1.0f);
-	XMVECTOR target = XMVectorSet(m_Position->x, m_Position->y, m_Position->z, 1.0f);
+	XMVECTOR target = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);// XMVectorSet(m_Position.x, m_Position.y, m_Position.z, 1.0f);
 	XMVECTOR up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 
 	XMMATRIX view = XMMatrixLookAtLH(pos, target, up);
 	XMStoreFloat4x4(&mView, view);
 
 	XMMATRIX world = XMLoadFloat4x4(&mWorld);
+	world = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
+
 	XMMATRIX proj = XMLoadFloat4x4(&Device::GetInstance()->Proj());
 	XMMATRIX worldViewProj = world * view * proj;
 
 	// Update the constant buffer with the latest worldViewProj matrix.
 	ObjectConstants objConstants;
 	XMStoreFloat4x4(&objConstants.WorldViewProj, XMMatrixTranspose(worldViewProj));
-	Device::GetInstance()->GetObjectCB()->CopyData(0, objConstants);
+	mObjectCB->CopyData(0, objConstants);
 }
 
-VOID GameObject::Render() {
+VOID GameObject::Render(int iIdx) {
+
+	ID3D12GraphicsCommandList* commandList = Device::GetInstance()->GetCommandList();
 	Device::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &mBoxGeo->VertexBufferView());
 	Device::GetInstance()->GetCommandList()->IASetIndexBuffer(&mBoxGeo->IndexBufferView());
 	Device::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
+	ID3D12DescriptorHeap* cbvHeap = Device::GetInstance()->CbvHeap();
+	CD3DX12_GPU_DESCRIPTOR_HANDLE cbv(cbvHeap->GetGPUDescriptorHandleForHeapStart());
+	INT CbvSrvUavDescriptorSize = Device::GetInstance()->CbvSrvUavDescriptorSize();
+	cbv.Offset(m_Index, CbvSrvUavDescriptorSize);
+
+	Device::GetInstance()->GetCommandList()->SetGraphicsRootDescriptorTable(0, cbv);
 	Device::GetInstance()->GetCommandList()->DrawIndexedInstanced(
 		mBoxGeo->DrawArgs["box"].IndexCount,
 		1, 0, 0, 0);
@@ -134,8 +146,30 @@ void GameObject::BuildBoxGeometry() {
 	Device::GetInstance()->ExcuteCommendList();
 }
 
+VOID GameObject::BuildConstantBuffers() {
+	Logger::PrintLog(L"GameObject::BuildConstantBuffers\n");
+	mObjectCB = std::make_unique<UploadBuffer<ObjectConstants>>(Device::GetInstance()->GetDevice(), 1, true);
+
+	UINT objCBByteSize = d3dUtil::CalcConstantBufferByteSize(sizeof(ObjectConstants));
+
+	D3D12_GPU_VIRTUAL_ADDRESS cbAddress = mObjectCB->Resource()->GetGPUVirtualAddress();
+	cbAddress += 0 * objCBByteSize; 
+
+	D3D12_CONSTANT_BUFFER_VIEW_DESC cbvDesc;
+	cbvDesc.SizeInBytes = objCBByteSize;
+	cbvDesc.BufferLocation = cbAddress;
+
+	INT CbvSrvUavDescriptorSize = Device::GetInstance()->CbvSrvUavDescriptorSize();
+	auto handle = CD3DX12_CPU_DESCRIPTOR_HANDLE(Device::GetInstance()->CbvHeap()->GetCPUDescriptorHandleForHeapStart());
+	handle.Offset(m_Index, CbvSrvUavDescriptorSize);
+
+	Device::GetInstance()->GetDevice()->CreateConstantBufferView(
+		&cbvDesc,
+		handle);
+}
+
 VOID GameObject::LoadProperties(HWND hWnd) {
-	InspectorView::AddProperty(Factory<GUITextBox>::CreateGUITextbox(hWnd, CREATE_PROPERTY(PrimitiveType::FLOAT, m_Position->x), GUI_NUMONLY));
-	InspectorView::AddProperty(Factory<GUITextBox>::CreateGUITextbox(hWnd, CREATE_PROPERTY(PrimitiveType::FLOAT, m_Position->y), GUI_NUMONLY));
-	InspectorView::AddProperty(Factory<GUITextBox>::CreateGUITextbox(hWnd, CREATE_PROPERTY(PrimitiveType::FLOAT, m_Position->z), GUI_NUMONLY));
+	InspectorView::AddProperty(Factory<GUITextBox>::CreateGUITextbox(hWnd, CREATE_PROPERTY(PrimitiveType::FLOAT, m_Position.x), GUI_NUMONLY));
+	InspectorView::AddProperty(Factory<GUITextBox>::CreateGUITextbox(hWnd, CREATE_PROPERTY(PrimitiveType::FLOAT, m_Position.y), GUI_NUMONLY));
+	InspectorView::AddProperty(Factory<GUITextBox>::CreateGUITextbox(hWnd, CREATE_PROPERTY(PrimitiveType::FLOAT, m_Position.z), GUI_NUMONLY));
 }

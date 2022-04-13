@@ -22,6 +22,9 @@ private:
 public:
     ~Device();
 public:
+
+    VOID GetHardwareAdapter(IDXGIFactory2* pFactory, IDXGIAdapter1** ppOutAdapter);
+
     virtual void CreateRtvAndDsvDescriptorHeaps();
 
 	HRESULT InitDevice(HWND hWnd);
@@ -35,7 +38,10 @@ public:
     void BuildBoxGeometry();
 
     VOID BeginRender();
+    VOID Render();
     VOID EndRender();
+
+    VOID SetGraphicsRootDescriptorTable(int iIdx);
 
     void BuildConstantBuffers();
 
@@ -46,8 +52,6 @@ public:
     VOID BuildShadersAndInputLayout();
 
     VOID BuildPSO();
-
-    void GetHardwareAdapter(IDXGIFactory2* pFactory, IDXGIAdapter1** ppOutAdapter);
     virtual void OnResize();
     HINSTANCE AppInst() const;
     HWND MainWnd() const;
@@ -85,7 +89,7 @@ private:
     UINT64 m_CurrentFence = 0;
 
     ComPtr<ID3D12CommandQueue> m_CommandQueue;
-    ComPtr<ID3D12CommandAllocator> m_DirectCmdListAlloc;
+    ComPtr<ID3D12CommandAllocator> m_CommandListAlloc;
     ComPtr<ID3D12GraphicsCommandList> m_CommandList;
 
     static const int SwapChainBufferCount = 2;
@@ -136,4 +140,9 @@ public:
     ID3D12GraphicsCommandList* GetCommandList();
     UploadBuffer<ObjectConstants>* GetObjectCB() { return m_ObjectCB.get(); }
     const XMFLOAT4X4 Proj() { return m_Proj; }
+
+    ID3D12DescriptorHeap* CbvHeap() { return m_CbvHeap.Get(); }
+
+    INT CbvSrvUavDescriptorSize() { return m_CbvSrvUavDescriptorSize; }
+    MeshGeometry* BoxGeo() { return mBoxGeo.get(); }
 };

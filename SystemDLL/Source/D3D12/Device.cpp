@@ -71,14 +71,17 @@ HRESULT Device::InitDevice(HWND hWnd) {
 }
 
 VOID Device::Initialize() {
+    Logger::PrintLog(L"Device::Initialize\n");
     // Reset the command list to prep for initialization commands.
-    ThrowIfFailed(m_CommandList->Reset(m_DirectCmdListAlloc.Get(), nullptr));
+    //ThrowIfFailed(m_CommandListAlloc->Reset());
+    ThrowIfFailed(m_CommandList->Reset(m_CommandListAlloc.Get(), nullptr));
 
     BuildDescriptorHeaps();
-    BuildConstantBuffers();
+    //BuildConstantBuffers();
     BuildRootSignature();
     BuildShadersAndInputLayout();
     BuildPSO();
+    BuildBoxGeometry();
 
     // Execute the initialization commands.
     ThrowIfFailed(m_CommandList->Close());
@@ -87,11 +90,12 @@ VOID Device::Initialize() {
 
     // Wait until initialization is complete.
     FlushCommandQueue();
+    Logger::PrintLog(L"Device::Initialize End\n");
 }
 
 VOID Device::ResetCommendList() {
     // Reset the command list to prep for initialization commands.
-    ThrowIfFailed(m_CommandList->Reset(m_DirectCmdListAlloc.Get(), nullptr));
+    ThrowIfFailed(m_CommandList->Reset(m_CommandListAlloc.Get(), nullptr));
 }
 
 VOID Device::ExcuteCommendList() {
@@ -107,11 +111,11 @@ VOID Device::ExcuteCommendList() {
 VOID Device::BeginRender() {
     // Reuse the memory associated with command recording.
     // We can only reset when the associated command lists have finished execution on the GPU.
-    ThrowIfFailed(m_DirectCmdListAlloc->Reset());
+    ThrowIfFailed(m_CommandListAlloc->Reset());
 
     // A command list can be reset after it has been added to the command queue via ExecuteCommandList.
     // Reusing the command list reuses memory.
-    ThrowIfFailed(m_CommandList->Reset(m_DirectCmdListAlloc.Get(), m_PSO.Get()));
+    ThrowIfFailed(m_CommandList->Reset(m_CommandListAlloc.Get(), m_PSO.Get()));
 
     m_CommandList->RSSetViewports(1, &m_ScreenViewport);
     m_CommandList->RSSetScissorRects(1, &m_ScissorRect);
@@ -131,8 +135,19 @@ VOID Device::BeginRender() {
     m_CommandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 
     m_CommandList->SetGraphicsRootSignature(m_RootSignature.Get());
+}
+
+VOID Device::Render() {
+
+    Device::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &mBoxGeo->VertexBufferView());
+    Device::GetInstance()->GetCommandList()->IASetIndexBuffer(&mBoxGeo->IndexBufferView());
+    Device::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
     m_CommandList->SetGraphicsRootDescriptorTable(0, m_CbvHeap->GetGPUDescriptorHandleForHeapStart());
+
+    Device::GetInstance()->GetCommandList()->DrawIndexedInstanced(
+        mBoxGeo->DrawArgs["box"].IndexCount,
+        1, 0, 0, 0);
 }
 
 VOID Device::EndRender() {
@@ -157,29 +172,41 @@ VOID Device::EndRender() {
     FlushCommandQueue();
 }
 
+VOID Device::SetGraphicsRootDescriptorTable(int iIdx) {
+    CD3DX12_GPU_DESCRIPTOR_HANDLE cbv(m_CbvHeap->GetGPUDescriptorHandleForHeapStart());
+    cbv.Offset(iIdx, m_CbvSrvUavDescriptorSize);
+
+    m_CommandList->SetGraphicsRootDescriptorTable(0, cbv);
+}
+
 
 void Device::BuildConstantBuffers() {
     m_ObjectCB = std::make_unique<UploadBuffer<ObjectConstants>>(m_Device.Get(), 1, true);
 
     UINT objCBByteSize = d3dUtil::CalcConstantBufferByteSize(sizeof(ObjectConstants));
+    int i = 0;
 
-    D3D12_GPU_VIRTUAL_ADDRESS cbAddress = m_ObjectCB->Resource()->GetGPUVirtualAddress();
-    // Offset to the ith object constant buffer in the buffer.
-    int boxCBufIndex = 0;
-    cbAddress += boxCBufIndex * objCBByteSize;
+        D3D12_GPU_VIRTUAL_ADDRESS cbAddress = m_ObjectCB->Resource()->GetGPUVirtualAddress();
 
-    D3D12_CONSTANT_BUFFER_VIEW_DESC cbvDesc;
-    cbvDesc.BufferLocation = cbAddress;
-    cbvDesc.SizeInBytes = d3dUtil::CalcConstantBufferByteSize(sizeof(ObjectConstants));
+        D3D12_CONSTANT_BUFFER_VIEW_DESC cbvDesc;
+        cbvDesc.SizeInBytes = d3dUtil::CalcConstantBufferByteSize(sizeof(ObjectConstants));
+        cbvDesc.BufferLocation = cbAddress;
+        cbAddress += i * objCBByteSize;
 
-    m_Device->CreateConstantBufferView(
-        &cbvDesc,
-        m_CbvHeap->GetCPUDescriptorHandleForHeapStart());
+        cbvDesc.BufferLocation = cbAddress;
+        auto handle = CD3DX12_CPU_DESCRIPTOR_HANDLE(m_CbvHeap->GetCPUDescriptorHandleForHeapStart());
+        handle.Offset(i, m_CbvSrvUavDescriptorSize);
+
+        m_Device->CreateConstantBufferView(
+            &cbvDesc,
+            handle);
 }
 
 void Device::BuildDescriptorHeaps() {
+    Logger::PrintLog(L"Device::BuildDescriptorHeaps\n");
+    // 상수 버퍼 https://codingfarm.tistory.com/562
     D3D12_DESCRIPTOR_HEAP_DESC cbvHeapDesc;
-    cbvHeapDesc.NumDescriptors = 1;
+    cbvHeapDesc.NumDescriptors = 2;// ObjectManager::GetInstance()->GetObjects()->size(); // 텍스쳐의 개수
     cbvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
     cbvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
     cbvHeapDesc.NodeMask = 0;
@@ -265,7 +292,28 @@ VOID Device::BuildPSO() {
     ThrowIfFailed(m_Device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&m_PSO)));
 }
 
-void Device::GetHardwareAdapter(IDXGIFactory2* pFactory, IDXGIAdapter1** ppOutAdapter) {
+VOID Device::GetHardwareAdapter(IDXGIFactory2* pFactory, IDXGIAdapter1** ppOutAdapter) {
+    // 가장 메모리가 큰 그래픽카드를 찾는다.
+    UINT32 uiMaxVideoMemory = 0;
+    INT iIndex = 0;
+
+    IDXGIAdapter1* pAdapter;
+    for (INT i = 0; DXGI_ERROR_NOT_FOUND != pFactory->EnumAdapters1(i, &pAdapter); i++) {
+        DXGI_ADAPTER_DESC1 AdapterDesc;
+        pAdapter->GetDesc1(&AdapterDesc);
+
+        // 메모리 비교하고 작으면 다음 그래픽카드로 넘긴다.
+        if (uiMaxVideoMemory > AdapterDesc.DedicatedVideoMemory) {
+            continue;
+        }
+
+        uiMaxVideoMemory = AdapterDesc.DedicatedVideoMemory;
+        iIndex = i;
+    }
+
+    // Adapter 반환
+    pFactory->EnumAdapters1(iIndex, &pAdapter);
+    *ppOutAdapter = pAdapter;
 }
 
 void Device::CreateRtvAndDsvDescriptorHeaps() {
@@ -299,12 +347,12 @@ void Device::OnResize() {
 
     assert(m_Device);
     assert(m_SwapChain);
-    assert(m_DirectCmdListAlloc);
+    assert(m_CommandListAlloc);
 
     // Flush before changing any resources.
     FlushCommandQueue();
 
-    ThrowIfFailed(m_CommandList->Reset(m_DirectCmdListAlloc.Get(), nullptr));
+    ThrowIfFailed(m_CommandList->Reset(m_CommandListAlloc.Get(), nullptr));
 
     // Release the previous resources we will be recreating.
     for (int i = 0; i < SwapChainBufferCount; ++i)
@@ -461,12 +509,12 @@ void Device::CreateCommandObjects() {
 
     ThrowIfFailed(m_Device->CreateCommandAllocator(
         D3D12_COMMAND_LIST_TYPE_DIRECT,
-        IID_PPV_ARGS(m_DirectCmdListAlloc.GetAddressOf())));
+        IID_PPV_ARGS(m_CommandListAlloc.GetAddressOf())));
 
     ThrowIfFailed(m_Device->CreateCommandList(
         0,
         D3D12_COMMAND_LIST_TYPE_DIRECT,
-        m_DirectCmdListAlloc.Get(), // Associated command allocator
+        m_CommandListAlloc.Get(), // Associated command allocator
         nullptr,                   // Initial PipelineStateObject
         IID_PPV_ARGS(m_CommandList.GetAddressOf())));
 

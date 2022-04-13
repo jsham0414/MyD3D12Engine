@@ -23,8 +23,8 @@ VOID ObjectManager::Update() {
 }
 
 VOID ObjectManager::Render() {
-	for (std::vector<GameObject*>::iterator iter = m_Objects.begin(); iter != m_Objects.end(); iter++) {
-		(*iter)->Render();
+	for (int i = 0; i < m_Objects.size(); i++) {
+		m_Objects[i]->Render(i);
 	}
 }
 
@@ -36,5 +36,6 @@ VOID ObjectManager::Release() {
 
 GameObject* ObjectManager::AddObject(GameObject* _object) {
 	m_Objects.push_back(_object);
+	//_object->Initialize();
 	return _object;
 }

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Common\Camera.cpp" />
     <ClCompile Include="Source\Common\CmdLineArgs.cpp" />
     <ClCompile Include="Source\Common\Logger.cpp" />
     <ClCompile Include="Source\Common\Time.cpp" />
@@ -36,6 +37,7 @@
     <ClCompile Include="Source\Engine\SplashScreen.cpp" />
     <ClCompile Include="Source\Manager\ObjectManager.cpp" />
     <ClCompile Include="Source\Object\Box.cpp" />
+    <ClCompile Include="Source\Object\CameraObject.cpp" />
     <ClCompile Include="Source\Object\GameObject.cpp" />
     <ClCompile Include="Source\Platform\WIN32\IApplication.cpp" />
     <ClCompile Include="Source\Platform\WIN32\SubObject.cpp" />
@@ -51,6 +53,7 @@
     <ClCompile Include="Source\System\SystemFunc.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Common\Camera.h" />
     <ClInclude Include="Source\Common\CmdLineArgs.h" />
     <ClInclude Include="Source\Common\Factory.h" />
     <ClInclude Include="Source\Common\Logger.h" />
@@ -70,6 +73,7 @@
     <ClInclude Include="Source\Engine\SplashScreen.h" />
     <ClInclude Include="Source\Manager\ObjectManager.h" />
     <ClInclude Include="Source\Object\Box.h" />
+    <ClInclude Include="Source\Object\CameraObject.h" />
     <ClInclude Include="Source\Object\GameObject.h" />
     <ClInclude Include="Source\Platform\WIN32\IApplication.h" />
     <ClInclude Include="Source\Platform\WIN32\SubObject.h" />
@@ -84,6 +88,9 @@
     <ClInclude Include="Source\Property\GUIVector3.h" />
     <ClInclude Include="Source\System\SystemDLL.h" />
     <ClInclude Include="Source\System\SystemFunc.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
